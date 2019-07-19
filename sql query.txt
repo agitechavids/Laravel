@@ -1,0 +1,58 @@
+$student=DB::table('student')->get();
+retuen view('student',['students'=>$students])
+-------------------------------
+foreach($students as $student)
+{
+echo $student->name,"<br>"    --------view()
+}
+--------------------------
+
+
+$student=DB::table('student')->where('name','ABC')->first();
+echo $student->name;
+-------------------------------------------
+select * from taable name where id=1
+
+$email=DB::table('student')->where('id','1')->value('email');
+echo $email;
+
+select email from tablename where id=1
+
+
+-------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+$names=DB::table('student')->pluck('name');
+foreach($names s as $name)
+{
+   echo $name ,"<br>"
+}
+---------------------------------------------------
+$students=DB::table('student')->pluck('name','email');
+foreach($students as $name=>$email)
+{
+   echo "Name",$name   ;
+   echo "email",$email   ;
+}
+---------------------------------------------------
+$students=DB::table('student')->orderBy('id')
+->chunk(2,function($students)){
+
+echo "<pre>"
+print_r($students)
+echo "</pre>"
+}
+---------------------------------------
+$student=DB::table('student')->count()
+$student=DB::table('student')->max('id')
+$student=DB::table('student')->where('id','2')->avg('price');
+
+
