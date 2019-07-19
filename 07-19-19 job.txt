@@ -1,0 +1,20 @@
+create a new project Laravel_CMS
+CReate a new Database Laravel_CMS
+
+controller name
+1.LoginController
+2.AdminController
+3.PostController
+4.ForumController
+5.GalleryController
+
+all controller must be resourse full 
+
+create view for the different method also
+
+methods
+for login controller 
+a.registration
+b.index
+c.forgotpassword
+4.changepassword
