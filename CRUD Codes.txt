@@ -1,4 +1,6 @@
+------------------------
 Inserts
+------------------------
  public function index(){
         $data=DB::table('students')->insert(
             ['name' => 'Masud Alam', 'email' => 'masud@w3prorammers.com']);
@@ -14,8 +16,9 @@ public function index(){
        echo $data?"Insert Success":"Data Insert Fail";
     }
 	
-	
+------------------------	
 Auto-Incrementing IDs
+------------------------
 public function index(){
         $id = DB::table('students')->insertGetId(
             ['name' => 'Farhan', 'email' => "farhan@donald.com"]
@@ -23,8 +26,10 @@ public function index(){
  
        echo "Your Last Inserted Id: $id";
     }
-	
+
+------------------------
 Updates	
+------------------------
 public function index(){
         $data=DB::table('students')
             ->where('id', 1)
@@ -37,8 +42,10 @@ Increment & Decrement
         $data=DB::table('students')->increment('visits', 2);
  
        echo $data?"Data Update Success":"Data Update Fail";
-    }	
+    }
+------------------------
 Deletes	
+------------------------
  public function index(){
         $result=DB::table('courses')->delete();
         $result2=DB::table('students')->where('id', '=', 4)->delete();
