@@ -1,0 +1,37 @@
+------------------------
+Ordering
+------------------------
+$students= DB::table('students')
+                ->orderBy('name', 'desc')
+                ->get();
+				
+$students= DB::table('students')
+                ->latest()
+                ->first();
+				
+				
+$randomStudent = DB::table('students')
+                ->inRandomOrder()
+                ->first();
+------------------------
+groupBy / having
+------------------------
+$students = DB::table('students')
+                ->groupBy('student_id')
+                ->having('student_id', '>', 5)
+                ->get();
+				
+$students= DB::table('students')
+                ->groupBy('name', 'status')
+                ->having('student_id', '>', 5)
+                ->get();
+------------------------
+skip / take
+------------------------
+$students = DB::table('students')->skip(10)->take(5)->get();
+
+
+$students = DB::table('students')
+                ->offset(10)
+                ->limit(5)
+                ->get();				

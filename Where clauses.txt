@@ -1,0 +1,125 @@
+
+
+
+where clauses method
+------------------------
+whereBetween
+------------------------
+        
+$students = DB::table('students')
+->whereNotBetween('id', [1, 5])
+->get();
+------------------------
+whereNotBetween
+------------------------
+$students = DB::table('students')
+->whereNotBetween('id', [1, 5])
+->get();
+------------------------
+whereIn
+------------------------
+$students = DB::table('students')
+->whereIn('id', [1,2,3])
+->get();
+
+------------------------
+whereNotIn
+------------------------
+$students = DB::table('students')
+->whereNotIn('id', [1,2,3])
+->get();
+------------------------
+whereNull
+------------------------
+$students = DB::table('students')
+->whereNull('updated_at')
+->get();
+------------------------
+whereNotNull
+------------------------
+$students = DB::table('students')
+->whereNotNull('updated_at')
+->get();
+
+------------------------
+whereDate
+------------------------
+
+$students = DB::table('students')
+->whereDate('created_at', '2017-12-31')
+->get();
+------------------------
+whereMonth
+------------------------
+$students = DB::table('students')
+->whereMonth('created_at', '12')
+->get();
+------------------------
+whereDay
+------------------------
+$students = DB::table('students')
+->whereDay('created_at', '31')
+->get();
+------------------------
+whereYear
+------------------------
+$students = DB::table('students')
+->whereYear('created_at', '2017')
+->get();
+------------------------
+whereTime
+------------------------
+$students = DB::table('students')
+->whereTime('created_at', '12:30')
+->get();
+
+------------------------
+whereColumn
+------------------------
+$students = DB::table('students')
+->whereColumn('first_name', 'last_name')
+->get();
+
+$users = DB::table('users')
+->whereColumn(
+'updated_at', '>', 'created_at'
+)->get();
+
+$students = DB::table('students')
+->whereColumn([
+['first_name', '=', 'last_name'],
+['updated_at', '>', 'created_at']
+])->get();
+
+------------------------
+Parmeter Grouping
+------------------------
+DB::table('students')
+            ->where('name', '=', 'Habib')
+            ->orWhere(function ($query) {
+                $query->where('id', '>', 5)
+                      ->where('title', '<>', 'Mr');
+            })
+            ->get();
+
+
+
+
+------------------------
+where exixt Clause 
+------------------------           		
+DB::table('users')
+->whereExists(function ($query) {
+	$query->select(DB::raw(1))
+		  ->from('orders')
+		  ->whereRaw('orders.user_id = users.id');
+})
+->get();
+
+
+
+
+
+
+
+

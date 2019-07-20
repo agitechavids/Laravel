@@ -1,0 +1,63 @@
+Inserts
+ public function index(){
+        $data=DB::table('students')->insert(
+            ['name' => 'Masud Alam', 'email' => 'masud@w3prorammers.com']);
+ 
+       echo $data?"Insert Success":"Data Insert Fail";
+    }
+public function index(){
+        $data=DB::table('students')->insert([
+            ['name' => 'Sohag', 'email' => 'sohag@mail.com'],
+            ['name' => 'Noman', 'email' => 'noman@mail.com']
+        ]);
+ 
+       echo $data?"Insert Success":"Data Insert Fail";
+    }
+	
+	
+Auto-Incrementing IDs
+public function index(){
+        $id = DB::table('students')->insertGetId(
+            ['name' => 'Farhan', 'email' => "farhan@donald.com"]
+        );
+ 
+       echo "Your Last Inserted Id: $id";
+    }
+	
+Updates	
+public function index(){
+        $data=DB::table('students')
+            ->where('id', 1)
+            ->update(['name' => 'Kabir Hossain']);
+ 
+       echo $data?"Data Update Success":"Data Update Fail";
+    }
+Increment & Decrement
+  public function index(){
+        $data=DB::table('students')->increment('visits', 2);
+ 
+       echo $data?"Data Update Success":"Data Update Fail";
+    }	
+Deletes	
+ public function index(){
+        $result=DB::table('courses')->delete();
+        $result2=DB::table('students')->where('id', '=', 4)->delete();
+       echo $result?"All Data Delete Success<br>":" All Data Delete Fail<br>";
+       echo $result2?"Data Delete Success":" Data Delete Fail";
+    }	
+	
+DB::table('users')->truncate();	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
