@@ -1,0 +1,11 @@
+$students =$db_ext->table('students')
+            ->join('contacts', 'students.id', '=', 
+            'contacts.student_id')
+            ->join('course_choice', 'students.id', '=',
+             'course_choice.student_id')
+            ->join('courses', 'students.id', '=', 
+            'course_choice.student_id')
+            ->select('students.id','students.name',
+            'courses.course_name','contacts.phone','contacts.email')
+            ->get();
+ 
