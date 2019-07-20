@@ -1,0 +1,19 @@
+1>-------$table="<table border='1' width='300'";
+        $table.="<tr><th>id</th><th>company</th>
+                     <th>last_name</th><th>first_name</th>
+                     <th>email_address</th><th>job_title</th>
+                     <th>business_phone</th><th>home_phone</th>
+                     <th>mobile_phone</th><th>fax_number</th>
+                     <th>address</th><th>city</th>
+                     <th>state_province</th><th>zip_postal_code</th>
+                     <th>country_region</th><th>web_page</th>
+                     <th>notes</th><th>attachments</th></tr>";
+ 2.$table.="<tr><td>$customer->id</td><td>$customer->company</td>
+        <td>$customer->last_name</td><td>$customer->first_name</td><td>$customer->email_address</td>
+        <td>$customer->job_title</td><td>$customer->business_phone</td>
+        <td>$customer->home_phone</td><td>$customer->mobile_phone</td>
+        <td>$customer->fax_number</td><td>$customer->address</td>
+        <td>$customer->city</td><td>$customer->state_province</td>
+        <td>$customer->zip_postal_code</td><td>$customer->country_region</td>
+        <td>$customer->web_page</td><td>$customer->notes</td>
+        <td>$customer->attachments</td></tr>";
