@@ -1,0 +1,17 @@
+-public
+--assets
+---css
+---js
+---fonts
+---img
+- resources
+-- views
+--- layout
+---- master.blade.php
+---- header.blade.php
+---- footer.blade.php
+---- sidebar.blade.php
+--- pages
+---- home.blade.php
+---- about.blade.php
+---- contact.blade.php
