@@ -1,0 +1,197 @@
+
+-------------------------------------------controller----------------------
+<?php
+namespace App\Http\Controllers;
+
+use App\Notifications\CustomEmail;
+use App\User;
+use Illuminate\Http\Request;
+
+class EmailController extends Controller
+{
+   public function customEmail(Request $request)
+    {
+        if ($request->isMethod('get')){
+            return view('custom_email');
+        }
+        else {
+            $rules = [
+                'to_email' => 'required|email',
+                'subject' => 'required',
+                'message' => 'required',
+            ];
+            $this->validate($request, $rules);
+            $user = new User();
+            $user->email = $request->to_email;
+            $user->
+notify(new CustomEmail($request->subject,
+ $request->message));
+            $request->session()->put('status', true);
+            return back();
+        }
+    }
+}
+
+
+-------------------------------------------Notification-----------------------------------------------------------------------
+<?php
+
+namespace App\Notifications;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
+
+class CustomEmail extends Notification
+{
+    use Queueable;
+
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct($subject, $message)
+    {
+        $this->subject = $subject;
+        $this->message = $message;
+    }
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->subject($this->subject)
+            ->view('email_message', ['message' => $this->message]);
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            //
+        ];
+    }
+}
+
+----------------------------------------------------user----------------------------
+<?php
+
+namespace App;
+
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+   
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+}
+--------------------------------------------resources/view/custom_email.blade.php------------------
+
+@extends('layout.default')
+@section('css')
+    <style>
+        .form-group.required label:after {
+            content: " *";
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+@endsection
+@section('content')
+    <div class="container">
+        <div class="col-md-8 offset-md-2">
+            <h1>New Email</h1>
+            <hr/>
+            @if(isset($customer))
+                {!! Form::model($customer,['method'=>'put']) !!}
+            @else
+                {!! Form::open() !!}
+            @endif
+            <div class="form-group row required">
+                {!! Form::label("to_email","To",["class"=>"col-form-label col-md-3 col-lg-2"]) !!}
+                <div class="col-md-8">
+                    {!! Form::text("to_email",null,["class"=>"form-control".($errors->has('to_email')?" is-invalid":""),"autofocus",'placeholder'=>'Email']) !!}
+                    {!! $errors->first('to_email','<span class="invalid-feedback">:message</span>') !!}
+                </div>
+            </div>
+            <div class="form-group row required">
+                {!! Form::label("subject","Subject",["class"=>"col-form-label col-md-3 col-lg-2"]) !!}
+                <div class="col-md-8">
+                    {!! Form::text("subject",null,["class"=>"form-control".($errors->has('subject')?" is-invalid":""),'placeholder'=>'Subject']) !!}
+                    {!! $errors->first('subject','<span class="invalid-feedback">:message</span>') !!}
+                </div>
+            </div>
+            <div class="form-group row required">
+                {!! Form::label("message","Message",["class"=>"col-form-label col-md-3 col-lg-2"]) !!}
+                <div class="col-md-8">
+                    {!! Form::textarea("message",null,["class"=>"form-control".($errors->has('message')?" is-invalid":""),'placeholder'=>'Message']) !!}
+                    {!! $errors->first('message','<span class="invalid-feedback">:message</span>') !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3 col-lg-2"></div>
+                <div class="col-md-4">
+                    {!! Form::button("Send",["type" => "submit","class"=>"btn btn-primary"])!!}
+                </div>
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+@endsection
+-----------------------------------------------------------resources/view/layout/default.blade.php-------------------
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@yield('head')
+<!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    @yield('css')
+</head>
+<body style="padding-top: 100px;padding-bottom: 50px;background: whitesmoke">
+<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-info">
+    <a class="navbar-brand" target="_blank" href="#">BHUTAN</a>
+    @yield('nav')
+</nav>
+@yield('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+@yield('js')
+</body>
+</html>
+
